@@ -1,0 +1,12 @@
+{
+  "name": "Nest — Designer Habit Tracker",
+  "short_name": "Nest",
+  "description": "A beautiful habit tracker for designers and creatives",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafaf9",
+  "theme_color": "#0f766e",
+  "icons": [
+    { "src": "/vite.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

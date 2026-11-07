@@ -1,0 +1,23 @@
+{
+  "name": "Nest — Designer Habit Tracker",
+  "short_name": "Nest",
+  "description": "A beautiful habit tracker for designers and creatives",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fafaf9",
+  "theme_color": "#0f766e",
+  "categories": ["productivity", "lifestyle"],
+  "lang": "en",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Dashboard", "url": "/" },
+    { "name": "Habits", "url": "/habits" },
+    { "name": "Focus", "url": "/focus" }
+  ]
+}
