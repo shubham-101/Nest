@@ -36,7 +36,7 @@ export const CommandPalette = ({ open, onOpenChange }: { open: boolean; onOpenCh
               ['/journal', 'Journal'], ['/wellness', 'Wellness'], ['/challenges', 'Challenges'],
               ['/goals', 'Goals'], ['/quit', 'Quit habits'], ['/finance', 'Finance'], ['/nutrition', 'Nutrition'],
               ['/meditation', 'Meditation'], ['/planner', 'Planner'], ['/palette', 'Palette lab'], ['/quit', 'Quit habits'],
-              ['/review', 'Review'], ['/settings', 'Settings'],
+              ['/review', 'Coach'], ['/settings', 'Settings'],
             ].map(([p, l]) => (
               <Command.Item key={p} onSelect={() => go(p)} className="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer hover:bg-surface-2 aria-selected:bg-surface-2 text-sm">
                 <span>{l}</span>

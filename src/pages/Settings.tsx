@@ -127,21 +127,10 @@ export default function Settings() {
       </Card>
 
       <Card>
-        <CardHeader><CardTitle>AI Coach</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label>Provider</Label>
-            <Select value={settings.aiProvider} onValueChange={v => updateSettings({ aiProvider: v as any })} options={[
-              { value: 'none', label: 'None (local insights)' },
-              { value: 'openai', label: 'OpenAI' },
-              { value: 'anthropic', label: 'Anthropic' },
-            ]} />
-          </div>
-          <div>
-            <Label>API key</Label>
-            <Input type="password" value={settings.aiKey} onChange={e => updateSettings({ aiKey: e.target.value })} placeholder="sk-..." />
-          </div>
-          <p className="text-xs text-text-muted">Keys are stored locally in your browser. Requests go directly to the provider.</p>
+        <CardHeader><CardTitle>Nest Coach (local)</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-text-muted">My coach runs fully in this app — it reads your habits, streaks, moods, sleep, goals and quotes your actual numbers. No AI key, server, or internet needed.</p>
+          <div className="text-xs text-text-muted bg-surface-2 rounded-xl p-3">Ask: <em>streaks · my weekly summary · why do I slip · mood & sleep · my goals · my plan · give me advice</em></div>
         </CardContent>
       </Card>
 

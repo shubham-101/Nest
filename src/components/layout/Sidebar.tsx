@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, ListChecks, Calendar, BarChart3, Timer, ImageIcon, Rocket, BookOpen, Settings, Command, GraduationCap, Book, Sparkles, FolderKanban, Notebook, Heart, Trophy, Target, Wallet, Apple, Wind, Clock, Palette, Ban, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { LayoutDashboard, ListChecks, Calendar, BarChart3, Timer, ImageIcon, Rocket, Settings, Command, GraduationCap, Book, Sparkles, FolderKanban, Notebook, Heart, Trophy, Target, Wallet, Apple, Wind, Clock, Palette, Ban, ChevronsLeft, ChevronsRight, Brain } from 'lucide-react';
 import { cn } from '../../lib/cn';
 import { useStore } from '../../store/useStore';
 import { todayStr } from '../../lib/dates';
@@ -42,7 +42,7 @@ const groups = [
       { to: '/goals', icon: Target, label: 'Goals' },
       { to: '/challenges', icon: Trophy, label: 'Challenges' },
       { to: '/quit', icon: Ban, label: 'Quit habits' },
-      { to: '/review', icon: BookOpen, label: 'Review' },
+      { to: '/review', icon: Brain, label: 'Coach' },
       { to: '/palette', icon: Palette, label: 'Palette lab' },
       { to: '/settings', icon: Settings, label: 'Settings' },
     ],
