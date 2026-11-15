@@ -202,6 +202,8 @@ export default function Focus() {
     setFocusSeconds(selected.work * 60);
   };
 
+  const addBreak = (mins: number) => setBreakSeconds(s => Math.min(99 * 60, s + mins * 60));
+
   const deleteCustom = (i: number) => {
     const next = customs.filter((_, j) => j !== i);
     setCustoms(next);
@@ -300,6 +302,14 @@ export default function Focus() {
                 <div className="text-xs text-text-muted">{cyclesLeft} left</div>
               </div>
             </div>
+          </div>
+
+          {/* extend break time (available whenever break clock exists) */}
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-xs text-text-muted">Break</span>
+            <button onClick={() => addBreak(1)} className="h-8 px-3 rounded-lg text-xs bg-surface-2 hover:bg-border font-medium">+1 min</button>
+            <button onClick={() => addBreak(5)} className="h-8 px-3 rounded-lg text-xs bg-surface-2 hover:bg-border font-medium">+5 min</button>
+            <button onClick={() => addBreak(10)} className="h-8 px-3 rounded-lg text-xs bg-surface-2 hover:bg-border font-medium">+10 min</button>
           </div>
 
           {mode === 'done' && (
