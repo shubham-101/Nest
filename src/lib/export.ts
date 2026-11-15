@@ -1,4 +1,4 @@
-import type { Habit, HabitEntry, MoodLog, Inspiration, PortfolioItem, FocusSession, Goal, AppSettings, UserStats, StudyTopic, StudySession, StudyResource, Book, Skill, SkillPractice, Project, Milestone, ProjectTask, GratitudeEntry, Note, SleepLog, WaterLog, Challenge, GymWorkout, FinanceEntry, Budget, Meal, NutritionTarget, MeditationSession, TimeBlock, BadHabit, UrgeLog, Reminder } from '../types';
+import type { Habit, HabitEntry, MoodLog, Inspiration, PortfolioItem, FocusSession, Goal, AppSettings, UserStats, StudyTopic, StudySession, StudyResource, Book, Skill, SkillPractice, Project, Milestone, ProjectTask, GratitudeEntry, Note, SleepLog, WaterLog, Challenge, GymWorkout, FinanceEntry, Budget, Meal, NutritionTarget, MeditationSession, TimeBlock, BadHabit, UrgeLog, Reminder, ReadingSession } from '../types';
 
 export interface ExportData {
   version: number;
@@ -13,6 +13,7 @@ export interface ExportData {
   settings: AppSettings;
   stats: UserStats;
   studyTopics: StudyTopic[];
+  readingSessions: ReadingSession[];
   studySessions: StudySession[];
   studyResources: StudyResource[];
   books: Book[];
@@ -52,6 +53,7 @@ export function buildExport(state: any): ExportData {
     settings: state.settings,
     stats: state.stats,
     studyTopics: state.studyTopics,
+    readingSessions: state.readingSessions,
     studySessions: state.studySessions,
     studyResources: state.studyResources,
     books: state.books,

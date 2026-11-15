@@ -11,8 +11,21 @@ import { Plus, Trash2 } from 'lucide-react';
 
 const STATUS_LABELS: Record<string, string> = { want: 'Want to read', reading: 'Reading', done: 'Finished' };
 
+const ReadingSessionItem = ({ r, books }: any) => {
+  const book = r.bookId ? books.find((b: any) => b.id === r.bookId) : null;
+  return (
+    <div className="flex items-center gap-3 py-2 text-sm">
+      <span className="font-mono">{r.duration}m</span>
+      <span className="flex-1 text-text-muted">{book?.title || 'Reading (general)'}</span>
+      <span className="text-xs text-text-muted">{r.date}</span>
+    </div>
+  );
+};
+
 export default function Reading() {
   const books = useStore(s => s.books);
+  const readingSessions = useStore(s => s.readingSessions);
+  const deleteReadingSession = useStore(s => s.deleteReadingSession);
   const addBook = useStore(s => s.addBook);
   const updateBook = useStore(s => s.updateBook);
   const deleteBook = useStore(s => s.deleteBook);
@@ -67,6 +80,16 @@ export default function Reading() {
         })}
         {filtered.length === 0 && <Card className="p-8 text-center text-text-muted col-span-full">No books yet.</Card>}
       </div>
+      <Card className="p-4">
+        <div className="font-medium mb-2">Focus reading sessions · {readingSessions.length}</div>
+        {readingSessions.length === 0 && <div className="text-text-muted text-sm">No sessions yet.</div>}
+        {readingSessions.slice(0, 15).map((r: any) => (
+          <div key={r.id} className="flex items-center gap-2 border-b border-border last:border-0">
+            <ReadingSessionItem r={r} books={books} />
+            <button onClick={() => deleteReadingSession(r.id)} className="text-text-muted hover:text-danger"><Trash2 size={12} /></button>
+          </div>
+        ))}
+      </Card>
 
       <Modal open={open} onOpenChange={setOpen} title="Add book">
         <div className="space-y-4">

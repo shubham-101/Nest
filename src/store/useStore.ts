@@ -10,7 +10,7 @@ import type {
   StudyTopic, StudySession, StudyResource, Book, Skill, SkillPractice,
   Project, Milestone, ProjectTask, GratitudeEntry, Note, SleepLog, WaterLog, Challenge,
   GymWorkout, FinanceEntry, Budget, Meal, NutritionTarget, MeditationSession, TimeBlock,
-  BadHabit, UrgeLog, Reminder,
+  BadHabit, UrgeLog, Reminder, ReadingSession,
 } from '../types';
 
 interface State {
@@ -27,6 +27,7 @@ interface State {
   // study
   studyTopics: StudyTopic[];
   studySessions: StudySession[];
+  readingSessions: ReadingSession[];
   studyResources: StudyResource[];
   // reading
   books: Book[];
@@ -95,6 +96,8 @@ interface State {
   deleteStudyTopic: (id: string) => void;
   addStudySession: (s: StudySession) => void;
   deleteStudySession: (id: string) => void;
+  addReadingSession: (r: ReadingSession) => void;
+  deleteReadingSession: (id: string) => void;
   addStudyResource: (r: StudyResource) => void;
   updateStudyResource: (id: string, patch: Partial<StudyResource>) => void;
   deleteStudyResource: (id: string) => void;
@@ -203,6 +206,7 @@ export const useStore = create<State>()(
       templates: [],
       studyTopics: [],
       studySessions: [],
+      readingSessions: [],
       studyResources: [],
       books: [],
       skills: [],
@@ -271,7 +275,7 @@ export const useStore = create<State>()(
       resetAll: () => set({
         habits: [], entries: [], moods: [], inspirations: [], portfolio: [], focusSessions: [], goals: [],
         settings: defaultSettings, stats: defaultStats, templates: [],
-        studyTopics: [], studySessions: [], studyResources: [], books: [], skills: [], skillPractices: [],
+        studyTopics: [], studySessions: [], studyResources: [], readingSessions: [], books: [], skills: [], skillPractices: [],
         projects: [], milestones: [], projectTasks: [], gratitudes: [], notes: [], sleepLogs: [], waterLogs: [],
         gymWorkouts: [], financeEntries: [], budgets: [], meals: [], nutritionTarget: { calories: 2000, protein: 150, carbs: 200, fat: 65 },
         meditationSessions: [], timeBlocks: [], badHabits: [], urgeLogs: [], reminders: [], challenges: [],
@@ -282,6 +286,9 @@ export const useStore = create<State>()(
       addStudyTopic: mk(set, 'studyTopics', 'prepend'),
       updateStudyTopic: (id, patch) => set((s: any) => ({ studyTopics: s.studyTopics.map((t: any) => t.id === id ? { ...t, ...patch } : t) })),
       deleteStudyTopic: (id) => set((s: any) => ({ studyTopics: s.studyTopics.filter((t: any) => t.id !== id), studySessions: s.studySessions.filter((x: any) => x.topicId !== id), studyResources: s.studyResources.filter((x: any) => x.topicId !== id) })),
+      addReadingSession: mk(set, 'readingSessions', 'prepend'),
+      deleteReadingSession: (id) => set((s: any) => ({ readingSessions: s.readingSessions.filter((r: any) => r.id !== id) })),
+
       addStudySession: mk(set, 'studySessions', 'prepend'),
       deleteStudySession: (id) => set((s: any) => ({ studySessions: s.studySessions.filter((x: any) => x.id !== id) })),
       addStudyResource: mk(set, 'studyResources', 'prepend'),
@@ -369,7 +376,7 @@ export const useStore = create<State>()(
         inspirations: s.inspirations, portfolio: s.portfolio,
         focusSessions: s.focusSessions, goals: s.goals,
         settings: s.settings, stats: s.stats, templates: s.templates,
-        studyTopics: s.studyTopics, studySessions: s.studySessions, studyResources: s.studyResources,
+        studyTopics: s.studyTopics, studySessions: s.studySessions, studyResources: s.studyResources, readingSessions: s.readingSessions,
         books: s.books, skills: s.skills, skillPractices: s.skillPractices,
         projects: s.projects, milestones: s.milestones, projectTasks: s.projectTasks,
         gratitudes: s.gratitudes, notes: s.notes, sleepLogs: s.sleepLogs, waterLogs: s.waterLogs,

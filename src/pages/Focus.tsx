@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
+import { todayStr } from '../lib/dates';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
@@ -56,6 +57,14 @@ export default function Focus() {
   const addFocus = useStore(s => s.addFocus);
   const updateFocus = useStore(s => s.updateFocus);
   const focusSessions = useStore(s => s.focusSessions);
+  const studyTopics = useStore(s => s.studyTopics);
+  const skills = useStore(s => s.skills);
+  const books = useStore(s => s.books);
+  const addStudySession = useStore(s => s.addStudySession);
+  const addSkillPractice = useStore(s => s.addSkillPractice);
+  const addReadingSession = useStore(s => s.addReadingSession);
+  const addMeditation = useStore(s => s.addMeditation);
+  const addGymWorkout = useStore(s => s.addGymWorkout);
   const savedCustom = (() => { try { return JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]'); } catch { return []; } })();
   const [customs, setCustoms] = useState<{ label: string; work: number; break: number }[]>(savedCustom);
   const [preset, setPreset] = useState(1); // 25 / 5
@@ -72,6 +81,8 @@ export default function Focus() {
   const [customName, setCustomName] = useState('');
   const [customWork, setCustomWork] = useState(45);
   const [customBreak, setCustomBreak] = useState(10);
+  const [logIntent, setLogIntent] = useState<'none' | 'reading' | 'studying' | 'working-out' | 'skill' | 'meditation'>('none');
+  const [logTarget, setLogTarget] = useState('');
   // 3rd clock (manual)
   const [softRun, setSoftRun] = useState(false);
   const [softSeconds, setSoftSeconds] = useState(0);
@@ -131,6 +142,29 @@ export default function Focus() {
   const total = mode === 'focus' ? selected.work * 60 : mode === 'break' ? selected.break * 60 : 1;
   const seconds = mode === 'focus' ? focusSeconds : mode === 'break' ? breakSeconds : 0;
 
+  const logCompletion = (durationMin: number) => {
+    const date = todayStr();
+    switch (logIntent) {
+      case 'reading':
+        addReadingSession({ id: uid(), bookId: logTarget || undefined, duration: durationMin, date, createdAt: new Date().toISOString() });
+        break;
+      case 'studying':
+        if (!logTarget) break;
+        addStudySession({ id: uid(), topicId: logTarget, duration: durationMin, date, notes: 'Logged from Focus timer', createdAt: new Date().toISOString() });
+        break;
+      case 'working-out':
+        addGymWorkout({ id: uid(), date, name: 'Focus workout', type: (logTarget as any) || 'mixed', duration: durationMin, exercises: [], notes: 'Logged from Focus timer', createdAt: new Date().toISOString() });
+        break;
+      case 'skill':
+        if (!logTarget) break;
+        addSkillPractice({ id: uid(), skillId: logTarget, duration: durationMin, date, note: 'Logged from Focus timer', createdAt: new Date().toISOString() });
+        break;
+      case 'meditation':
+        addMeditation({ id: uid(), date, duration: durationMin, type: (logTarget as any) || 'mindfulness', note: 'Logged from Focus timer', createdAt: new Date().toISOString() });
+        break;
+    }
+  };
+
   // ---- ticking engine ----
   useEffect(() => {
     if (!running || (mode !== 'focus' && mode !== 'break')) return;
@@ -143,6 +177,7 @@ export default function Focus() {
             playRing();
             if (sessionId) updateFocus(sessionId, { completedAt: new Date().toISOString() });
             awardXP(25);
+            logCompletion(selected.work);
             setCyclesLeft(cyclesLeft - 1);
             setMode('break');
             setBreakSeconds(selected.break * 60);
@@ -173,7 +208,7 @@ export default function Focus() {
       }
     }, 1000);
     return () => clearInterval(intervalRef.current);
-  }, [running, mode, selected, cyclesLeft, sessionId, habitId]);
+  }, [running, mode, selected, cyclesLeft, sessionId, habitId, logIntent, logTarget]);
 
   const start = () => {
     warmRing();
@@ -411,6 +446,34 @@ export default function Focus() {
             )}
             {mode === 'break' && (
               <Button variant="ghost" size="lg" onClick={skipBreak} title="Start next focus now"><SkipForward size={16} /> Skip break</Button>
+            )}
+          </div>
+
+          {/* after focus completes — where to log it? */}
+          <div className="max-w-md mx-auto space-y-2">
+            <Label className="text-xs text-text-muted">When this focus ends, log it to</Label>
+            <Select value={logIntent} onValueChange={v => { setLogIntent(v as any); setLogTarget(''); }} options={[
+              { value: 'none', label: 'Don\'t log anywhere' },
+              { value: 'reading', label: 'Reading' },
+              { value: 'studying', label: 'Studying' },
+              { value: 'working-out', label: 'Working out' },
+              { value: 'skill', label: 'Skill practice' },
+              { value: 'meditation', label: 'Meditation' },
+            ]} />
+            {logIntent === 'reading' && (
+              <Select value={logTarget} onValueChange={setLogTarget} options={[{ value: '', label: 'Reading (general — no book)' }, ...books.map(b => ({ value: b.id, label: b.title }))]} />
+            )}
+            {logIntent === 'studying' && (
+              <Select value={logTarget} onValueChange={setLogTarget} options={[{ value: '', label: 'Pick a study topic…' }, ...studyTopics.map(t => ({ value: t.id, label: t.name }))]} />
+            )}
+            {logIntent === 'working-out' && (
+              <Select value={logTarget || 'strength'} onValueChange={setLogTarget} options={[{ value: 'strength', label: 'Strength' }, { value: 'cardio', label: 'Cardio' }, { value: 'hiit', label: 'HIIT' }, { value: 'flexibility', label: 'Flexibility' }, { value: 'mixed', label: 'Mixed' }]} />
+            )}
+            {logIntent === 'skill' && (
+              <Select value={logTarget} onValueChange={setLogTarget} options={[{ value: '', label: 'Pick a skill…' }, ...skills.map(s => ({ value: s.id, label: s.name }))]} />
+            )}
+            {logIntent === 'meditation' && (
+              <Select value={logTarget || 'mindfulness'} onValueChange={setLogTarget} options={[{ value: 'mindfulness', label: 'Mindfulness' }, { value: 'breathing', label: 'Breathing' }, { value: 'body-scan', label: 'Body scan' }, { value: 'loving-kindness', label: 'Loving kindness' }, { value: 'other', label: 'Other' }]} />
             )}
           </div>
 

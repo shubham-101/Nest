@@ -46,7 +46,7 @@ const PAGE_INFO: Record<string, { title: string; blurb: string; tips: string[] }
   focus: {
     title: 'Focus timer',
     blurb: 'Deep work in measured sprints.',
-    tips: ['Focus minutes ÷ 10 (min 4) drives the 3rd "Soft" clock — hits a quick breather', 'Ring plays on completion; Stop ring to silence', 'Cycles: repeat focus → break as many times as you want; 4 default', '+1 / +5 / +10 adjusts break minutes on the fly'],
+    tips: ['Focus minutes ÷ 10 (min 4) drives the 3rd "Soft" clock — hits a quick breather', 'Ring plays on completion; Stop ring to silence', 'Cycles: repeat focus → break as many times as you want; 4 default', '+1 / +5 / +10 adjusts break minutes on the fly', 'Pick an activity beforehand — after completion it auto-logs to Reading/Study/Skills/Meditation/Gym'],
   },
   inspiration: {
     title: 'Inspiration',

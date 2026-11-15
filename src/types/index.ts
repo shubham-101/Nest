@@ -365,6 +365,15 @@ export interface UrgeLog {
   createdAt: string;
 }
 
+// ---- Reading focus sessions ----
+export interface ReadingSession {
+  id: string;
+  bookId?: string;
+  duration: number; // minutes
+  date: string;
+  createdAt: string;
+}
+
 // ---- Reminders ----
 export type ReminderRepeat = 'none' | 'daily' | 'weekly' | 'monthly';
 export interface Reminder {
