@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useStore } from '../store/useStore';
 import { isCompleted, streakForHabit } from '../lib/stats';
 import { todayStr } from '../lib/dates';
@@ -18,10 +18,29 @@ export const HabitRow = ({ habit, compact, onEdit }: { habit: any; compact?: boo
   const [showNote, setShowNote] = useState(false);
   const [note, setNote] = useState('');
   const [menu, setMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const today = todayStr();
   const entry = entries.find(e => e.habitId === habit.id && e.date === today);
   const done = isCompleted(habit, entry);
   const streak = streakForHabit(habit, entries);
+
+  useEffect(() => {
+    if (!menu) return;
+    const onOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenu(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenu(false);
+    };
+    document.addEventListener('mousedown', onOutside);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onOutside);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [menu]);
 
   const toggle = () => {
     if (habit.type === 'boolean') {
@@ -90,7 +109,7 @@ export const HabitRow = ({ habit, compact, onEdit }: { habit: any; compact?: boo
           {habit.type !== 'boolean' && (
             <Button variant="ghost" size="sm" onClick={() => setShowNote(v => !v)}>Log</Button>
           )}
-          <div className="relative">
+          <div ref={menuRef} className="relative">
             <Button variant="ghost" size="icon" aria-label="more" onClick={() => setMenu(v => !v)}><MoreHorizontal size={16} /></Button>
             {menu && (
               <div className="absolute right-0 top-9 z-20 bg-surface border border-border rounded-xl shadow-lg p-1 w-40">
