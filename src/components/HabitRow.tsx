@@ -106,8 +106,10 @@ export const HabitRow = ({ habit, compact, onEdit }: { habit: any; compact?: boo
           )}
         </div>
         <div className="flex items-center gap-1">
-          {habit.type !== 'boolean' && (
+          {habit.type !== 'boolean' ? (
             <Button variant="ghost" size="sm" onClick={() => setShowNote(v => !v)}>Log</Button>
+          ) : (
+            <Button variant="ghost" size="sm" onClick={toggle}>{done ? 'Undo' : 'Log'}</Button>
           )}
           <div ref={menuRef} className="relative">
             <Button variant="ghost" size="icon" aria-label="more" onClick={() => setMenu(v => !v)}><MoreHorizontal size={16} /></Button>
