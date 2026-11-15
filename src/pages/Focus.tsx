@@ -71,6 +71,11 @@ export default function Focus() {
   const [customName, setCustomName] = useState('');
   const [customWork, setCustomWork] = useState(45);
   const [customBreak, setCustomBreak] = useState(10);
+  // 3rd clock (manual)
+  const [softRun, setSoftRun] = useState(false);
+  const [softSeconds, setSoftSeconds] = useState(0);
+  const [softTotal, setSoftTotal] = useState(60);
+  const softRef = useRef<any>(null);
   const intervalRef = useRef<any>(null);
 
   useEffect(() => {
@@ -92,6 +97,35 @@ export default function Focus() {
   const allPresets = [...PRESETS, ...customs];
   const selected = allPresets[Math.min(preset, allPresets.length - 1)];
   const isCustom = preset >= PRESETS.length;
+
+  // 3rd clock is focus minutes / 10 (min 4 min)
+  const softMinutes = Math.max(4, Math.floor(selected.work / 10));
+  const softInit = softMinutes * 60;
+
+  useEffect(() => {
+    if (!softRun) {
+      setSoftTotal(softInit);
+      setSoftSeconds(softInit);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [softInit]);
+
+  // 3rd clock tick
+  useEffect(() => {
+    if (!softRun) return;
+    softRef.current = setInterval(() => {
+      setSoftSeconds(s => {
+        if (s <= 1) {
+          clearInterval(softRef.current);
+          setSoftRun(false);
+          playRing();
+          return 0;
+        }
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(softRef.current);
+  }, [softRun]);
 
   const total = mode === 'focus' ? selected.work * 60 : mode === 'break' ? selected.break * 60 : 1;
   const seconds = mode === 'focus' ? focusSeconds : mode === 'break' ? breakSeconds : 0;
@@ -165,6 +199,10 @@ export default function Focus() {
 
   const resetAll = () => {
     stopRingUI();
+    clearInterval(softRef.current);
+    setSoftRun(false);
+    setSoftTotal(softInit);
+    setSoftSeconds(softInit);
     setRunning(false);
     setMode('focus');
     setCyclesLeft(cycleCount);
@@ -189,6 +227,19 @@ export default function Focus() {
     setCycleCount(val);
     setCyclesLeft(val);
   };
+
+  const startSoft = () => {
+    warmRing();
+    setRunning(false); // stop focus clock
+    clearInterval(intervalRef.current);
+    if (softSeconds <= 0) {
+      setSoftSeconds(softInit);
+      setSoftTotal(softInit);
+    }
+    setSoftRun(true);
+  };
+  const pauseSoft = () => setSoftRun(false);
+  const resetSoft = () => { setSoftRun(false); setSoftTotal(softInit); setSoftSeconds(softInit); };
 
   const skipBreak = () => {
     if (mode !== 'break') return;
@@ -276,8 +327,8 @@ export default function Focus() {
             ))}
           </div>
 
-          {/* DUAL CLOCKS */}
-          <div className="flex justify-center gap-6 sm:gap-10">
+          {/* THREE CLOCKS */}
+          <div className="flex justify-center gap-3 sm:gap-6 flex-wrap">
             {/* FOCUS */}
             <div className={`relative h-40 w-40 sm:h-48 sm:w-48 transition-opacity ${mode === 'focus' ? '' : 'opacity-40'}`}>
               <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
@@ -300,6 +351,26 @@ export default function Focus() {
                 <div className="text-[10px] uppercase tracking-widest text-amber-500 font-semibold">Break</div>
                 <div className="font-mono text-3xl sm:text-4xl font-bold">{String(Math.floor(breakSeconds / 60)).padStart(2, '0')}:{String(breakSeconds % 60).padStart(2, '0')}</div>
                 <div className="text-xs text-text-muted">{cyclesLeft} left</div>
+              </div>
+            </div>
+            {/* SOFT CLOCK — manual start, stops focus */}
+            <div className={`relative h-40 w-40 sm:h-48 sm:w-48 transition ${softRun ? '' : 'opacity-70'}`}>
+              <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+                <circle cx="50" cy="50" r="46" fill="none" stroke="var(--color-surface-2)" strokeWidth="6" />
+                {softRun && <circle cx="50" cy="50" r="46" fill="none" stroke="#a78bfa" strokeWidth="6" strokeDasharray={`${(1 - softSeconds / softTotal) * 289} 289`} strokeLinecap="round" />}
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="text-[10px] uppercase tracking-widest text-violet-400 font-semibold">Soft</div>
+                <div className="font-mono text-3xl sm:text-4xl font-bold">{String(Math.floor(softSeconds / 60)).padStart(2, '0')}:{String(softSeconds % 60).padStart(2, '0')}</div>
+                <div className="text-xs text-text-muted">manual</div>
+              </div>
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+                {!softRun ? (
+                  <button onClick={startSoft} className="h-7 w-7 rounded-full bg-violet-500 text-white flex items-center justify-center shadow hover:scale-110 transition" title="Start soft clock (stops focus)"><Play size={12} /></button>
+                ) : (
+                  <button onClick={pauseSoft} className="h-7 w-7 rounded-full bg-surface text-text-muted border border-border flex items-center justify-center shadow hover:scale-110 transition" title="Pause soft clock"><Pause size={12} /></button>
+                )}
+                <button onClick={resetSoft} className="h-7 w-7 rounded-full bg-surface text-text-muted border border-border flex items-center justify-center shadow hover:scale-110 transition" title="Reset soft clock"><RotateCcw size={12} /></button>
               </div>
             </div>
           </div>
