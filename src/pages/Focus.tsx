@@ -3,29 +3,46 @@ import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Modal } from '../components/ui/Modal';
+import { Input, Label } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Play, Pause, RotateCcw, Coffee } from 'lucide-react';
 
 const PRESETS = [
-  { label: '25 / 5 Pomodoro', work: 25, break: 5 },
-  { label: '50 / 10 Deep', work: 50, break: 10 },
   { label: '15 / 3 Quick', work: 15, break: 3 },
+  { label: '25 / 5 Pomodoro', work: 25, break: 5 },
+  { label: '40 / 8 Study', work: 40, break: 8 },
+  { label: '50 / 10 Deep', work: 50, break: 10 },
+  { label: '60 / 15 Sprint', work: 60, break: 15 },
+  { label: '90 / 20 Flow', work: 90, break: 20 },
 ];
+
+const CUSTOM_KEY = 'nest-focus-custom';
 
 export default function Focus() {
   const habits = useStore(s => s.habits);
   const addFocus = useStore(s => s.addFocus);
   const updateFocus = useStore(s => s.updateFocus);
   const focusSessions = useStore(s => s.focusSessions);
-  const [preset, setPreset] = useState(0);
+  const savedCustom = (() => { try { return JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]'); } catch { return []; } })();
+  const [customs, setCustoms] = useState<{ label: string; work: number; break: number }[]>(savedCustom);
+  const [preset, setPreset] = useState(1); // 25 / 5
   const [habitId, setHabitId] = useState('');
   const [mode, setMode] = useState<'work' | 'break'>('work');
   const [running, setRunning] = useState(false);
-  const [seconds, setSeconds] = useState(PRESETS[0].work * 60);
+  const [seconds, setSeconds] = useState(PRESETS[1].work * 60);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [customOpen, setCustomOpen] = useState(false);
+  const [customName, setCustomName] = useState('');
+  const [customWork, setCustomWork] = useState(45);
+  const [customBreak, setCustomBreak] = useState(10);
   const intervalRef = useRef<any>(null);
 
-  const total = mode === 'work' ? PRESETS[preset].work * 60 : PRESETS[preset].break * 60;
+  const allPresets = [...PRESETS, ...customs];
+  const selected = allPresets[Math.min(preset, allPresets.length - 1)];
+  const isCustom = preset >= PRESETS.length;
+
+  const total = mode === 'work' ? selected.work * 60 : selected.break * 60;
 
   useEffect(() => {
     if (running) {
@@ -38,10 +55,10 @@ export default function Focus() {
               if (sessionId) updateFocus(sessionId, { completedAt: new Date().toISOString() });
               awardXP(25);
               setMode('break');
-              setSeconds(PRESETS[preset].break * 60);
+              setSeconds(selected.break * 60);
             } else {
               setMode('work');
-              setSeconds(PRESETS[preset].work * 60);
+              setSeconds(selected.work * 60);
             }
             return 0;
           }
@@ -50,14 +67,14 @@ export default function Focus() {
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [running, mode, preset, sessionId]);
+  }, [running, mode, preset, sessionId, selected]);
 
   const start = () => {
     if (!running) {
       if (!sessionId && mode === 'work') {
         const id = uid();
         setSessionId(id);
-        addFocus({ id, habitId: habitId || undefined, duration: PRESETS[preset].work, startedAt: new Date().toISOString() });
+        addFocus({ id, habitId: habitId || undefined, duration: selected.work, startedAt: new Date().toISOString() });
       }
       setRunning(true);
     }
@@ -66,13 +83,33 @@ export default function Focus() {
   const reset = () => {
     setRunning(false);
     setMode('work');
-    setSeconds(PRESETS[preset].work * 60);
+    setSeconds(selected.work * 60);
     setSessionId(null);
   };
   const changePreset = (i: number) => {
-    setPreset(i);
     reset();
-    setSeconds(PRESETS[i].work * 60);
+    setPreset(i);
+    const p = allPresets[i];
+    setSeconds(p.work * 60);
+  };
+  const deleteCustom = (i: number) => {
+    const next = customs.filter((_, j) => j !== i);
+    setCustoms(next);
+    localStorage.setItem(CUSTOM_KEY, JSON.stringify(next));
+    if (preset === PRESETS.length + i) { reset(); setPreset(1); setSeconds(PRESETS[1].work * 60); }
+    else if (isCustom && preset > PRESETS.length + i) setPreset(p => p - 1);
+  };
+  const saveCustom = () => {
+    if (!customName.trim() || customWork < 1) return;
+    const next = [...customs, { label: customName.trim(), work: customWork, break: customBreak }];
+    setCustoms(next);
+    localStorage.setItem(CUSTOM_KEY, JSON.stringify(next));
+    setCustomOpen(false);
+    setCustomName('');
+    const idx = PRESETS.length + next.length - 1;
+    reset();
+    setPreset(idx);
+    setSeconds(next[next.length - 1].work * 60);
   };
 
   const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -84,10 +121,16 @@ export default function Focus() {
       <h1 className="font-display text-3xl">Focus timer</h1>
       <Card>
         <CardContent className="py-8 text-center space-y-6">
-          <div className="flex justify-center gap-2">
-            {PRESETS.map((p, i) => (
-              <button key={i} onClick={() => changePreset(i)} className={`px-3 py-1.5 rounded-lg text-sm ${preset === i ? 'bg-accent text-white' : 'bg-surface-2 hover:bg-border'}`}>{p.label}</button>
+          <div className="flex flex-wrap justify-center gap-2">
+            {allPresets.map((p, i) => (
+              <button key={i} onClick={() => changePreset(i)} className={`px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5 ${preset === i ? 'bg-accent text-white' : 'bg-surface-2 hover:bg-border'}`}>
+                {p.label}
+                {i >= PRESETS.length && (
+                  <span role="button" aria-label="Delete custom preset" onClick={e => { e.stopPropagation(); deleteCustom(i - PRESETS.length); }} className="opacity-60 hover:opacity-100 text-xs">×</span>
+                )}
+              </button>
             ))}
+            <button onClick={() => setCustomOpen(true)} className="px-3 py-1.5 rounded-lg text-sm border border-dashed border-border text-text-muted hover:text-text hover:border-accent">+ Custom</button>
           </div>
           <div className="text-sm text-text-muted">{mode === 'work' ? 'Deep work' : 'Break'} {habitId && `· ${habits.find(h => h.id === habitId)?.name}`}</div>
           <div className="relative mx-auto h-56 w-56">
@@ -110,6 +153,29 @@ export default function Focus() {
           </div>
         </CardContent>
       </Card>
+
+      <Modal open={customOpen} onOpenChange={setCustomOpen} title="Create custom timer">
+        <div className="space-y-4">
+          <div>
+            <Label>Name</Label>
+            <Input value={customName} onChange={e => setCustomName(e.target.value)} placeholder="e.g. 45 / 10 Study session" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>Focus minutes</Label>
+              <Input type="number" min={1} value={customWork} onChange={e => setCustomWork(Number(e.target.value))} />
+            </div>
+            <div>
+              <Label>Break minutes</Label>
+              <Input type="number" min={0} value={customBreak} onChange={e => setCustomBreak(Number(e.target.value))} />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" onClick={() => setCustomOpen(false)}>Cancel</Button>
+            <Button onClick={saveCustom}>Save preset</Button>
+          </div>
+        </div>
+      </Modal>
 
       <Card>
         <CardHeader><CardTitle className="text-base flex items-center gap-2"><Coffee size={16} /> Recent sessions</CardTitle></CardHeader>
