@@ -42,6 +42,7 @@ const groups = [
       { to: '/goals', icon: Target, label: 'Goals' },
       { to: '/challenges', icon: Trophy, label: 'Challenges' },
       { to: '/quit', icon: Ban, label: 'Quit habits' },
+      { to: '/starters', icon: Sparkles, label: 'Starter packs' },
       { to: '/review', icon: Brain, label: 'Coach' },
       { to: '/palette', icon: Palette, label: 'Palette lab' },
       { to: '/settings', icon: Settings, label: 'Settings' },

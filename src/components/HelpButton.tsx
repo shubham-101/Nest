@@ -118,6 +118,11 @@ const PAGE_INFO: Record<string, { title: string; blurb: string; tips: string[] }
     blurb: 'Personalization and data export.',
     tips: ['Profile & sync: export/import .json between devices', 'Accent color & theme, notification toggle', 'Export .json as backup; reset all if you want a clean slate'],
   },
+  starters: {
+    title: 'Starter packs',
+    blurb: 'Pre-built samples to bootstrap any module.',
+    tips: ['Pick a category tab (Goals, Challenges, Quit, Projects, Inspiration, Wellness, Skills, Reading, Study)', 'Tap “Add” on any item — it lands in your list', 'Delete/edit added items the same way as your own'],
+  },
   profileswitch: {
     title: 'Choose a profile',
     blurb: 'Everyone gets their own private Nest on this device.',

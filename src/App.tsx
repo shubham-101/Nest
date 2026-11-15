@@ -36,6 +36,7 @@ const Nutrition = lazy(() => import('./pages/Nutrition'));
 const Meditation = lazy(() => import('./pages/Meditation'));
 const Planner = lazy(() => import('./pages/Planner'));
 const PaletteLab = lazy(() => import('./pages/PaletteLab'));
+const Starters = lazy(() => import('./pages/Starters'));
 const Quit = lazy(() => import('./pages/Quit'));
 const Review = lazy(() => import('./pages/Review'));
 const Settings = lazy(() => import('./pages/Settings'));
@@ -184,6 +185,7 @@ export default function App() {
             <Route path="/meditation" element={<Meditation />} />
             <Route path="/planner" element={<Planner />} />
             <Route path="/palette" element={<PaletteLab />} />
+            <Route path="/starters" element={<Starters />} />
             <Route path="/quit" element={<Quit />} />
             <Route path="/review" element={<Review />} />
             <Route path="/settings" element={<Settings />} />
