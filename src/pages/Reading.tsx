@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -56,7 +56,7 @@ export default function Reading() {
                 </div>
               )}
               {b.status === 'done' && b.rating > 0 && (
-                <div className="text-xs text-amber-500">{'Ã¢Ëœâ€¦'.repeat(b.rating)}{'Ã¢Ëœâ€ '.repeat(5 - b.rating)}</div>
+                <div className="text-xs text-amber-500">{'★'.repeat(b.rating)}{'☆'.repeat(5 - b.rating)}</div>
               )}
               {b.notes && <div className="text-xs text-text-muted line-clamp-2">{b.notes}</div>}
               <Select value={b.status} onValueChange={v => updateBook(b.id, { status: v as any, ...(v === 'reading' && !b.startedAt ? { startedAt: new Date().toISOString() } : {}), ...(v === 'done' ? { finishedAt: new Date().toISOString() } : {}) })} options={[

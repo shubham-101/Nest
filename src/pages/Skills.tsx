@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -53,7 +53,7 @@ export default function Skills() {
                 <div className="h-2 rounded-full bg-surface-2 overflow-hidden"><div className="h-full bg-accent" style={{ width: `${sk.level}%` }} /></div>
                 <input type="range" min={0} max={100} value={sk.level} onChange={e => updateSkill(sk.id, { level: Number(e.target.value) })} className="w-full mt-2" />
               </div>
-              <div className="text-xs text-text-muted">{skPractices.length} practice sessions Ã‚Â· {totalMin} min</div>
+              <div className="text-xs text-text-muted">{skPractices.length} practice sessions · {totalMin} min</div>
               {sk.notes && <div className="text-xs text-text-muted line-clamp-2">{sk.notes}</div>}
             </Card>
           );
@@ -68,7 +68,7 @@ export default function Skills() {
             const sk = skills.find(s => s.id === p.skillId);
             return (
               <div key={p.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0 text-sm">
-                <span className="font-medium">{sk?.name || 'Ã¢â‚¬â€'}</span>
+                <span className="font-medium">{sk?.name || '—'}</span>
                 <span className="text-text-muted">{p.duration} min</span>
                 <span className="flex-1 text-text-muted truncate">{p.note}</span>
                 <span className="text-xs text-text-muted">{p.date}</span>

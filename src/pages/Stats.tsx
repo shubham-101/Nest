@@ -1,4 +1,4 @@
-﻿import { useStore } from '../store/useStore';
+import { useStore } from '../store/useStore';
 import { HelpButton } from '../components/HelpButton';
 import { isCompleted, streakForHabit, longestStreakForHabit, completionRate } from '../lib/stats';
 import { lastNDays } from '../lib/dates';
@@ -27,7 +27,7 @@ export default function Stats() {
 
   // per-habit completion rate (last 30)
   const habitRates = active.map(h => ({
-    name: h.name.length > 14 ? h.name.slice(0, 14) + 'Ã¢â‚¬Â¦' : h.name,
+    name: h.name.length > 14 ? h.name.slice(0, 14) + '…' : h.name,
     rate: Math.round(completionRate(h, entries, 30) * 100),
   })).sort((a, b) => b.rate - a.rate);
 
@@ -110,7 +110,7 @@ export default function Stats() {
               {streakRows.map((r, i) => (
                 <tr key={i} className="border-t border-border">
                   <td className="py-2">{r.icon} {r.name}</td>
-                  <td>{r.current} Ã°Å¸â€Â¥</td>
+                  <td>{r.current} 🔥</td>
                   <td>{r.best}</td>
                 </tr>
               ))}

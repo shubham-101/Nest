@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -68,7 +68,7 @@ export default function Meditation() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Sessions Ã‚Â· {sessions.length} Ã‚Â· {totalMin} min total</CardTitle>
+          <CardTitle className="text-base">Sessions · {sessions.length} · {totalMin} min total</CardTitle>
           <Button size="sm" variant="ghost" onClick={() => { setF({ duration: 10, type: 'mindfulness', note: '', date: todayStr() }); setOpen(true); }}><Plus size={14} /></Button>
         </CardHeader>
         <CardContent>

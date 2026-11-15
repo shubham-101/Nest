@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';

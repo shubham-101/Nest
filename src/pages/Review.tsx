@@ -1,1 +1,1 @@
-﻿export { default } from './Coach';
+export { default } from './Coach';

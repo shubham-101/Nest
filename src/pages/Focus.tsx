@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -189,7 +189,7 @@ export default function Focus() {
         addFocus({ id, habitId: habitId || undefined, duration: selected.work, startedAt: new Date().toISOString() });
       }
       if (mode === 'break' && cyclesLeft <= 0) {
-        // set finished Ã¢â‚¬â€ treat start as restart
+        // set finished — treat start as restart
         resetAll();
         return;
       }
@@ -306,7 +306,7 @@ export default function Focus() {
               <button key={i} onClick={() => changePreset(i)} className={`px-3 py-1.5 rounded-lg text-sm flex items-center gap-1.5 ${preset === i ? 'bg-accent text-white' : 'bg-surface-2 hover:bg-border'}`}>
                 {p.label}
                 {i >= PRESETS.length && (
-                  <span role="button" aria-label="Delete custom preset" onClick={e => { e.stopPropagation(); deleteCustom(i - PRESETS.length); }} className="opacity-60 hover:opacity-100 text-xs">Ãƒâ€”</span>
+                  <span role="button" aria-label="Delete custom preset" onClick={e => { e.stopPropagation(); deleteCustom(i - PRESETS.length); }} className="opacity-60 hover:opacity-100 text-xs">×</span>
                 )}
               </button>
             ))}
@@ -316,7 +316,7 @@ export default function Focus() {
           {/* intended cycles (user sets this before starting) */}
           <div className="flex items-center justify-center gap-2">
             <Label className="text-xs text-text-muted">Cycles</Label>
-            <button onClick={() => setTotal(cycleCount - 1)} className="h-8 w-8 rounded-lg bg-surface-2 hover:bg-border text-lg">Ã¢Ë†â€™</button>
+            <button onClick={() => setTotal(cycleCount - 1)} className="h-8 w-8 rounded-lg bg-surface-2 hover:bg-border text-lg">−</button>
             <Input type="number" min={1} max={20} value={cycleCount} onChange={e => setTotal(Number(e.target.value))} className="w-16 h-8 text-center" disabled={running} />
             <button onClick={() => setTotal(cycleCount + 1)} className="h-8 w-8 rounded-lg bg-surface-2 hover:bg-border text-lg">+</button>
           </div>
@@ -354,7 +354,7 @@ export default function Focus() {
                 <div className="text-xs text-text-muted">{cyclesLeft} left</div>
               </div>
             </div>
-            {/* SOFT CLOCK Ã¢â‚¬â€ manual start, stops focus */}
+            {/* SOFT CLOCK — manual start, stops focus */}
             <div className={`relative h-40 w-40 sm:h-48 sm:w-48 transition ${softRun ? '' : 'opacity-70'}`}>
               <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
                 <circle cx="50" cy="50" r="46" fill="none" stroke="var(--color-surface-2)" strokeWidth="6" />
@@ -387,11 +387,11 @@ export default function Focus() {
           {mode === 'done' && (
             <div className="text-center space-y-2">
               <Flag className="mx-auto text-accent" size={28} />
-              <div className="font-display text-xl">Set complete! Ã°Å¸Å½â€°</div>
+              <div className="font-display text-xl">Set complete! 🎉</div>
               <div className="text-sm text-text-muted">{cycleCount} cycles done. Take a longer rest.</div>
             </div>
           )}
-          <div className="text-sm text-text-muted">{mode === 'focus' ? 'Deep work' : mode === 'break' ? 'Break' : 'Done'} {habitId && `Ã‚Â· ${habits.find(h => h.id === habitId)?.name}`}</div>
+          <div className="text-sm text-text-muted">{mode === 'focus' ? 'Deep work' : mode === 'break' ? 'Break' : 'Done'} {habitId && `· ${habits.find(h => h.id === habitId)?.name}`}</div>
 
           {ringPlaying && (
             <button onClick={stopRingUI} className="flex items-center gap-2 mx-auto px-4 py-2 rounded-xl bg-red-500 text-white text-sm font-medium shadow hover:opacity-90 transition" aria-label="Stop ring">
@@ -451,7 +451,7 @@ export default function Focus() {
               <span className="font-mono">{s.duration}m</span>
               <span className="flex-1 text-text-muted">{s.habitId ? habits.find(h => h.id === s.habitId)?.name : 'Free focus'}</span>
               <span className="text-xs text-text-muted">{new Date(s.startedAt).toLocaleString()}</span>
-              {s.completedAt && <span className="text-xs text-accent">Ã¢Å“â€œ</span>}
+              {s.completedAt && <span className="text-xs text-accent">✓</span>}
             </div>
           ))}
           {focusSessions.length === 0 && <div className="text-text-muted text-sm">No sessions yet.</div>}

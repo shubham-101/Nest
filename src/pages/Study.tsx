@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -29,7 +29,7 @@ export default function Study() {
   const [topicOpen, setTopicOpen] = useState(false);
   const [sessionOpen, setSessionOpen] = useState(false);
   const [resourceOpen, setResourceOpen] = useState(false);
-  const [tf, setTf] = useState<any>({ name: '', subject: '', color: COLORS[0], icon: 'Ã°Å¸â€œËœ' });
+  const [tf, setTf] = useState<any>({ name: '', subject: '', color: COLORS[0], icon: '📘' });
   const [sf, setSf] = useState<any>({ topicId: '', duration: 25, notes: '', date: todayStr() });
   const [rf, setRf] = useState<any>({ topicId: '', title: '', url: '', type: 'article', status: 'todo', progress: 0, notes: '' });
 
@@ -40,7 +40,7 @@ export default function Study() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Study tracker</h1><HelpButton pageKey="study" /></span>
-        <div className="text-sm text-text-muted">{sessions.length} sessions Ã‚Â· {totalMin} min total</div>
+        <div className="text-sm text-text-muted">{sessions.length} sessions · {totalMin} min total</div>
       </div>
 
       <div className="flex gap-2 border-b border-border">
@@ -51,7 +51,7 @@ export default function Study() {
 
       {tab === 'topics' && (
         <>
-          <div className="flex justify-end"><Button onClick={() => { setTf({ name: '', subject: '', color: COLORS[0], icon: 'Ã°Å¸â€œËœ' }); setTopicOpen(true); }}><Plus size={16} /> New topic</Button></div>
+          <div className="flex justify-end"><Button onClick={() => { setTf({ name: '', subject: '', color: COLORS[0], icon: '📘' }); setTopicOpen(true); }}><Plus size={16} /> New topic</Button></div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {topics.map(t => (
               <Card key={t.id} className="p-4">
@@ -64,7 +64,7 @@ export default function Study() {
                   <button onClick={() => deleteTopic(t.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
                 </div>
                 <div className="mt-3 text-xs text-text-muted">
-                  {sessions.filter(s => s.topicId === t.id).length} sessions Ã‚Â· {sessions.filter(s => s.topicId === t.id).reduce((a, s) => a + s.duration, 0)} min
+                  {sessions.filter(s => s.topicId === t.id).length} sessions · {sessions.filter(s => s.topicId === t.id).reduce((a, s) => a + s.duration, 0)} min
                 </div>
               </Card>
             ))}
@@ -81,10 +81,10 @@ export default function Study() {
               const t = s.topicId ? topicMap.get(s.topicId) : null;
               return (
                 <Card key={s.id} className="p-4 flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ background: (t?.color || '#888') + '22', color: t?.color || '#888' }}>{t?.icon || 'Ã°Å¸â€œËœ'}</div>
+                  <div className="h-9 w-9 rounded-lg flex items-center justify-center" style={{ background: (t?.color || '#888') + '22', color: t?.color || '#888' }}>{t?.icon || '📘'}</div>
                   <div className="flex-1">
-                    <div className="text-sm font-medium">{t?.name || 'General'} Ã‚Â· {s.duration} min</div>
-                    <div className="text-xs text-text-muted">{s.date}{s.notes ? ' Ã‚Â· ' + s.notes : ''}</div>
+                    <div className="text-sm font-medium">{t?.name || 'General'} · {s.duration} min</div>
+                    <div className="text-xs text-text-muted">{s.date}{s.notes ? ' · ' + s.notes : ''}</div>
                   </div>
                   <button onClick={() => deleteSession(s.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
                 </Card>
@@ -106,7 +106,7 @@ export default function Study() {
                   <div className="flex items-start gap-2">
                     <div className="flex-1">
                       <div className="font-medium text-sm">{r.title}</div>
-                      <div className="text-xs text-text-muted">{t?.name || 'General'} Ã‚Â· {r.type}</div>
+                      <div className="text-xs text-text-muted">{t?.name || 'General'} · {r.type}</div>
                     </div>
                     <button onClick={() => deleteResource(r.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
                   </div>

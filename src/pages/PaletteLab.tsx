@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -64,7 +64,7 @@ export default function PaletteLab() {
         <CardContent className="py-5 flex items-center gap-4">
           <input type="color" value={base} onChange={e => setBase(e.target.value)} className="h-12 w-12 rounded-lg border border-border cursor-pointer" />
           <Input value={base} onChange={e => setBase(e.target.value)} className="font-mono" />
-          <div className="text-xs text-text-muted">H {Math.round(h)}Ã‚Â° Ã‚Â· S {Math.round(s * 100)}% Ã‚Â· L {Math.round(l * 100)}%</div>
+          <div className="text-xs text-text-muted">H {Math.round(h)}° · S {Math.round(s * 100)}% · L {Math.round(l * 100)}%</div>
         </CardContent>
       </Card>
 
@@ -125,7 +125,7 @@ export default function PaletteLab() {
                   <div className="h-12 flex-1 rounded-lg flex items-center justify-center text-lg font-bold" style={{ background: bg, color: base }}>Sample text</div>
                   <div>
                     <div className="font-mono text-lg">{ratio.toFixed(2)}:1</div>
-                    <div className="text-xs">AA: {aa ? 'Ã¢Å“â€œ' : 'Ã¢Å“â€”'} Ã‚Â· AAA: {aaa ? 'Ã¢Å“â€œ' : 'Ã¢Å“â€”'}</div>
+                    <div className="text-xs">AA: {aa ? '✓' : '✗'} · AAA: {aaa ? '✓' : '✗'}</div>
                   </div>
                 </div>
               );

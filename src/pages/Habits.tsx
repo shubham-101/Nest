@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -102,7 +102,7 @@ export default function Habits() {
               setTemplateOpen(false);
             }} className="w-full text-left p-4 rounded-xl border border-border hover:border-accent transition-all">
               <div className="font-medium">{t.name}</div>
-              <div className="text-sm text-text-muted">{t.description} Ã‚Â· {t.habits.length} habits</div>
+              <div className="text-sm text-text-muted">{t.description} · {t.habits.length} habits</div>
             </button>
           ))}
         </div>
@@ -117,7 +117,7 @@ function HabitModal({ open, onOpenChange, editing, onSave }: any) {
   React.useEffect(() => {
     if (open) {
       setForm(editing ? { ...editing } : {
-        name: '', description: '', icon: 'Ã¢Å“Â¨', color: '#0f766e', type: 'boolean', category: 'design',
+        name: '', description: '', icon: '✨', color: '#0f766e', type: 'boolean', category: 'design',
         frequency: 'daily', target: 10, unit: 'min', daysOfWeek: [1,2,3,4,5,6,0], reminderTime: '', checklistItems: [],
       });
     }
@@ -219,7 +219,7 @@ function SortableHabitRow({ habit, onEdit }: { habit: any; onEdit?: (h: any) => 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
       <div className="flex items-stretch gap-2">
-        <button {...listeners} className="cursor-grab active:cursor-grabbing text-text-muted hover:text-text px-1 self-center" aria-label="drag">Ã¢â€¹Â®Ã¢â€¹Â®</button>
+        <button {...listeners} className="cursor-grab active:cursor-grabbing text-text-muted hover:text-text px-1 self-center" aria-label="drag">⋮⋮</button>
         <div className="flex-1">
           <HabitRow habit={habit} onEdit={onEdit} />
         </div>

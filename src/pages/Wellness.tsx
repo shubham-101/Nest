@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -89,9 +89,9 @@ export default function Wellness() {
               {sleepLogs.slice(0, 7).map(s => (
                 <div key={s.id} className="flex items-center gap-3 text-sm py-1.5 border-b border-border last:border-0">
                   <span className="font-medium">{s.date}</span>
-                  <span className="text-text-muted">{s.bedtime} Ã¢â€ â€™ {s.wakeTime}</span>
+                  <span className="text-text-muted">{s.bedtime} → {s.wakeTime}</span>
                   <span className="text-text-muted">{calcDuration(s.bedtime, s.wakeTime)}h</span>
-                  <span className="text-amber-500">{'Ã¢Ëœâ€¦'.repeat(s.quality)}</span>
+                  <span className="text-amber-500">{'★'.repeat(s.quality)}</span>
                   <button onClick={() => deleteSleep(s.id)} className="ml-auto text-text-muted hover:text-danger"><Trash2 size={12} /></button>
                 </div>
               ))}
@@ -113,8 +113,8 @@ export default function Wellness() {
               <div key={w.id} className="border border-border rounded-xl p-4 space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="flex-1">
-                    <div className="font-medium">{w.name || 'Workout'} <span className="text-xs text-text-muted">Ã‚Â· {w.type} Ã‚Â· {w.duration} min</span></div>
-                    <div className="text-xs text-text-muted">{w.date} Ã‚Â· {w.exercises.length} exercises Ã‚Â· volume {totalVolume(w).toLocaleString()} kg</div>
+                    <div className="font-medium">{w.name || 'Workout'} <span className="text-xs text-text-muted">· {w.type} · {w.duration} min</span></div>
+                    <div className="text-xs text-text-muted">{w.date} · {w.exercises.length} exercises · volume {totalVolume(w).toLocaleString()} kg</div>
                   </div>
                   <button onClick={() => deleteGym(w.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
                 </div>
@@ -122,8 +122,8 @@ export default function Wellness() {
                   <div className="space-y-1.5">
                     {w.exercises.map((e: any, i: number) => (
                       <div key={i} className="text-xs bg-surface-2 rounded-lg px-3 py-2">
-                        <div className="font-medium">{e.name} <span className="text-text-muted">Ã‚Â· {e.muscleGroup}</span></div>
-                        <div className="text-text-muted">{e.sets.map((s: any) => `${s.reps}Ãƒâ€”${s.weight}${s.unit}`).join('  ')}</div>
+                        <div className="font-medium">{e.name} <span className="text-text-muted">· {e.muscleGroup}</span></div>
+                        <div className="text-text-muted">{e.sets.map((s: any) => `${s.reps}×${s.weight}${s.unit}`).join('  ')}</div>
                       </div>
                     ))}
                   </div>
@@ -145,7 +145,7 @@ export default function Wellness() {
           </div>
           <div>
             <Label>Quality</Label>
-            <Select value={String(sf.quality)} onValueChange={v => setSf({ ...sf, quality: Number(v) })} options={[1, 2, 3, 4, 5].map(n => ({ value: String(n), label: 'Ã¢Ëœâ€¦'.repeat(n) }))} />
+            <Select value={String(sf.quality)} onValueChange={v => setSf({ ...sf, quality: Number(v) })} options={[1, 2, 3, 4, 5].map(n => ({ value: String(n), label: '★'.repeat(n) }))} />
           </div>
           <div><Label>Note</Label><Input value={sf.note} onChange={e => setSf({ ...sf, note: e.target.value })} /></div>
           <div className="flex justify-end gap-2">
@@ -173,10 +173,10 @@ export default function Wellness() {
               {gf.exercises.map((e: any, i: number) => (
                 <div key={i} className="border border-border rounded-lg p-3 space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{e.name} <span className="text-text-muted text-xs">Ã‚Â· {e.muscleGroup}</span></span>
+                    <span className="text-sm font-medium">{e.name} <span className="text-text-muted text-xs">· {e.muscleGroup}</span></span>
                     <button onClick={() => removeExercise(i)} className="text-text-muted hover:text-danger"><Trash2 size={12} /></button>
                   </div>
-                  <div className="text-xs text-text-muted">{e.sets.map((s: any) => `${s.reps}Ãƒâ€”${s.weight}${s.unit}`).join('  ')}</div>
+                  <div className="text-xs text-text-muted">{e.sets.map((s: any) => `${s.reps}×${s.weight}${s.unit}`).join('  ')}</div>
                 </div>
               ))}
             </div>

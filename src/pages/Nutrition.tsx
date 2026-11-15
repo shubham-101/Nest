@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -57,8 +57,8 @@ export default function Nutrition() {
         {todayMeals.map(m => (
           <Card key={m.id} className="p-4 flex items-center gap-3">
             <div className="flex-1">
-              <div className="text-sm font-medium">{m.name} <span className="text-xs text-text-muted">Ã‚Â· {m.type}</span></div>
-              <div className="text-xs text-text-muted">{m.calories} kcal Ã‚Â· P{m.protein} C{m.carbs} F{m.fat}</div>
+              <div className="text-sm font-medium">{m.name} <span className="text-xs text-text-muted">· {m.type}</span></div>
+              <div className="text-xs text-text-muted">{m.calories} kcal · P{m.protein} C{m.carbs} F{m.fat}</div>
             </div>
             <button onClick={() => deleteMeal(m.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
           </Card>

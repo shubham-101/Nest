@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
@@ -68,7 +68,7 @@ export default function Finance() {
               {e.type === 'income' ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
             </div>
             <div className="flex-1">
-              <div className="text-sm font-medium">{e.category} {e.note && <span className="text-text-muted">Ã‚Â· {e.note}</span>}</div>
+              <div className="text-sm font-medium">{e.category} {e.note && <span className="text-text-muted">· {e.note}</span>}</div>
               <div className="text-xs text-text-muted">{e.date}</div>
             </div>
             <div className={`font-semibold ${e.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>{e.type === 'income' ? '+' : '-'}{e.amount.toLocaleString()}</div>
