@@ -105,8 +105,8 @@ export default function Settings() {
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => { localStorage.removeItem(ACTIVE_PROFILE_KEY); window.location.reload(); }}>Switch profile</Button>
             <Button variant="outline" size="sm" onClick={() => downloadJSON(buildSyncPackage(), 'studio-sync.json')}><Download size={14} /> Export all profiles</Button>
-            <Button variant="ghost" size="sm"><Upload size={14} /> Import sync file
-              <input type="file" accept="application/json,.json" className="absolute opacity-0 inset-0 cursor-pointer" onChange={(e) => {
+            <Button variant="ghost" size="sm" className="relative overflow-hidden"><Upload size={14} /> Import sync file
+              <input type="file" accept="application/json,.json" className="absolute inset-0 h-full w-full opacity-0 cursor-pointer" onChange={(e) => {
                 const f = e.target.files?.[0];
                 if (!f) return;
                 const r = new FileReader();
