@@ -6,7 +6,7 @@ import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
 import { Input, Label } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
-import { Play, Pause, RotateCcw, Coffee } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, BellRing } from 'lucide-react';
 
 const PRESETS = [
   { label: '15 / 3 Quick', work: 15, break: 3 },
@@ -20,12 +20,22 @@ const PRESETS = [
 const CUSTOM_KEY = 'nest-focus-custom';
 
 let ringAudio: HTMLAudioElement | null = null;
+
+export const stopRing = () => {
+  try {
+    ringAudio?.pause();
+    ringAudio && (ringAudio.currentTime = 0);
+  } catch { /* noop */ }
+};
 const playRing = () => {
   try {
     if (!ringAudio) ringAudio = new Audio('/ring.mp3');
     ringAudio.volume = 0.9;
     ringAudio.currentTime = 0;
+    ringAudio.onended = () => document.dispatchEvent(new CustomEvent('nest-ring-ended'));
+    ringAudio.onpause = () => document.dispatchEvent(new CustomEvent('nest-ring-ended'));
     void ringAudio.play();
+    document.dispatchEvent(new CustomEvent('nest-ring-playing'));
   } catch (e) {
     console.warn('Could not play ring.mp3', e);
   }
@@ -54,10 +64,27 @@ export default function Focus() {
   const [seconds, setSeconds] = useState(PRESETS[1].work * 60);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [customOpen, setCustomOpen] = useState(false);
+  const [ringPlaying, setRingPlaying] = useState(false);
   const [customName, setCustomName] = useState('');
   const [customWork, setCustomWork] = useState(45);
   const [customBreak, setCustomBreak] = useState(10);
   const intervalRef = useRef<any>(null);
+
+  useEffect(() => {
+    const onRing = () => setRingPlaying(true);
+    const onEnded = () => setRingPlaying(false);
+    document.addEventListener('nest-ring-playing', onRing);
+    document.addEventListener('nest-ring-ended', onEnded);
+    return () => {
+      document.removeEventListener('nest-ring-playing', onRing);
+      document.removeEventListener('nest-ring-ended', onEnded);
+    };
+  }, []);
+
+  const stopRingUI = () => {
+    stopRing();
+    setRingPlaying(false);
+  };
 
   const allPresets = [...PRESETS, ...customs];
   const selected = allPresets[Math.min(preset, allPresets.length - 1)];
@@ -104,6 +131,7 @@ export default function Focus() {
   };
   const pause = () => setRunning(false);
   const reset = () => {
+    stopRingUI();
     setRunning(false);
     setMode('work');
     setSeconds(selected.work * 60);
@@ -164,6 +192,11 @@ export default function Focus() {
             </svg>
             <div className="absolute inset-0 flex items-center justify-center font-mono text-5xl font-bold">{mm}:{ss}</div>
           </div>
+          {ringPlaying && (
+            <button onClick={stopRingUI} className="flex items-center gap-2 mx-auto px-4 py-2 rounded-xl bg-red-500 text-white text-sm font-medium shadow hover:opacity-90 transition" aria-label="Stop ring">
+              <BellRing size={16} /> Stop ring
+            </button>
+          )}
           <div className="flex justify-center gap-3">
             {!running ? (
               <Button size="lg" onClick={start}><Play size={18} /> Start</Button>
