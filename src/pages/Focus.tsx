@@ -19,6 +19,27 @@ const PRESETS = [
 
 const CUSTOM_KEY = 'nest-focus-custom';
 
+let ringAudio: HTMLAudioElement | null = null;
+const playRing = () => {
+  try {
+    if (!ringAudio) ringAudio = new Audio('/ring.mp3');
+    ringAudio.volume = 0.9;
+    ringAudio.currentTime = 0;
+    void ringAudio.play();
+  } catch (e) {
+    console.warn('Could not play ring.mp3', e);
+  }
+};
+
+/** create/unlock the audio element on first user interaction so it can play later */
+const warmRing = () => {
+  if (!ringAudio) {
+    ringAudio = new Audio('/ring.mp3');
+    ringAudio.preload = 'auto';
+    ringAudio.load();
+  }
+};
+
 export default function Focus() {
   const habits = useStore(s => s.habits);
   const addFocus = useStore(s => s.addFocus);
@@ -50,6 +71,7 @@ export default function Focus() {
         setSeconds(s => {
           if (s <= 1) {
             setRunning(false);
+            playRing();
             if (mode === 'work') {
               // complete
               if (sessionId) updateFocus(sessionId, { completedAt: new Date().toISOString() });
@@ -70,6 +92,7 @@ export default function Focus() {
   }, [running, mode, preset, sessionId, selected]);
 
   const start = () => {
+    warmRing();
     if (!running) {
       if (!sessionId && mode === 'work') {
         const id = uid();
@@ -100,6 +123,7 @@ export default function Focus() {
     else if (isCustom && preset > PRESETS.length + i) setPreset(p => p - 1);
   };
   const saveCustom = () => {
+    warmRing();
     if (!customName.trim() || customWork < 1) return;
     const next = [...customs, { label: customName.trim(), work: customWork, break: customBreak }];
     setCustoms(next);
