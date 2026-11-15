@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -35,7 +36,7 @@ export default function Nutrition() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Nutrition</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Nutrition</h1><HelpButton pageKey="nutrition" /></span>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => { setTf({ ...target }); setTargetOpen(true); }}>Targets</Button>
           <Button onClick={() => { setF({ type: 'breakfast', name: '', calories: 0, protein: 0, carbs: 0, fat: 0, note: '', date: today }); setOpen(true); }}><Plus size={16} /> Add meal</Button>
@@ -56,8 +57,8 @@ export default function Nutrition() {
         {todayMeals.map(m => (
           <Card key={m.id} className="p-4 flex items-center gap-3">
             <div className="flex-1">
-              <div className="text-sm font-medium">{m.name} <span className="text-xs text-text-muted">· {m.type}</span></div>
-              <div className="text-xs text-text-muted">{m.calories} kcal · P{m.protein} C{m.carbs} F{m.fat}</div>
+              <div className="text-sm font-medium">{m.name} <span className="text-xs text-text-muted">Ã‚Â· {m.type}</span></div>
+              <div className="text-xs text-text-muted">{m.calories} kcal Ã‚Â· P{m.protein} C{m.carbs} F{m.fat}</div>
             </div>
             <button onClick={() => deleteMeal(m.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
           </Card>

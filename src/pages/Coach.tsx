@@ -1,4 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
+﻿import { useRef, useEffect, useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { brainAnswer, weeklySummary } from '../lib/ai';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
@@ -25,7 +26,7 @@ export default function Coach() {
   const sleepLogs = useStore(s => s.sleepLogs);
   const goals = useStore(s => s.goals);
   const [messages, setMessages] = useState<CoachMessage[]>([
-    { role: 'assistant', text: "Hey — I'm your local Nest coach. I read your real data; nothing leaves your device. Ask me about streaks, why you slip, mood, sleep, goals — or tap a suggestion.", ts: new Date().toISOString() },
+    { role: 'assistant', text: "Hey Ã¢â‚¬â€ I'm your local Nest coach. I read your real data; nothing leaves your device. Ask me about streaks, why you slip, mood, sleep, goals Ã¢â‚¬â€ or tap a suggestion.", ts: new Date().toISOString() },
   ]);
   const [question, setQuestion] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
@@ -63,8 +64,8 @@ export default function Coach() {
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Nest Coach</h1>
-        <div className="text-xs px-2 py-1 rounded-full bg-accent-soft text-accent border border-accent/20">On-device · your data never leaves this app</div>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Nest Coach</h1><HelpButton pageKey="review" /></span>
+        <div className="text-xs px-2 py-1 rounded-full bg-accent-soft text-accent border border-accent/20">On-device Ã‚Â· your data never leaves this app</div>
       </div>
 
       {/* weekly summary strip */}
@@ -73,8 +74,8 @@ export default function Coach() {
           <div className="h-9 w-9 rounded-xl bg-accent-soft text-accent flex items-center justify-center shrink-0"><TrendingUp size={18} /></div>
           <p className="text-sm text-text-muted flex-1 min-w-[200px]">{ws}</p>
           <div className="flex gap-4 text-xs text-text-muted">
-            <div>Mood <b className="text-text">{recentMoods.length ? (recentMoods.reduce((a, m) => a + m.mood, 0) / recentMoods.length).toFixed(1) : '—'}</b></div>
-            <div>Energy <b className="text-text">{recentMoods.length ? (recentMoods.reduce((a, m) => a + m.energy, 0) / recentMoods.length).toFixed(1) : '—'}</b></div>
+            <div>Mood <b className="text-text">{recentMoods.length ? (recentMoods.reduce((a, m) => a + m.mood, 0) / recentMoods.length).toFixed(1) : 'Ã¢â‚¬â€'}</b></div>
+            <div>Energy <b className="text-text">{recentMoods.length ? (recentMoods.reduce((a, m) => a + m.energy, 0) / recentMoods.length).toFixed(1) : 'Ã¢â‚¬â€'}</b></div>
           </div>
         </CardContent>
       </Card>
@@ -96,7 +97,7 @@ export default function Coach() {
                 </div>
               </div>
             ))}
-            {chatLoading && <div className="text-xs text-text-muted pl-2">Nest is thinking…</div>}
+            {chatLoading && <div className="text-xs text-text-muted pl-2">Nest is thinkingÃ¢â‚¬Â¦</div>}
           </div>
 
           {/* suggestions */}
@@ -107,7 +108,7 @@ export default function Coach() {
           </div>
 
           <form onSubmit={e => { e.preventDefault(); send(question); }} className="flex gap-2">
-            <Input value={question} onChange={e => setQuestion(e.target.value)} placeholder="Ask anything… e.g. why do I slip?" className="h-11" />
+            <Input value={question} onChange={e => setQuestion(e.target.value)} placeholder="Ask anythingÃ¢â‚¬Â¦ e.g. why do I slip?" className="h-11" />
             <Button type="submit" size="lg" disabled={chatLoading || !question.trim()}><Send size={16} /></Button>
           </form>
         </CardContent>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
@@ -37,7 +38,7 @@ export default function Projects() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Projects</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Projects</h1><HelpButton pageKey="projects" /></span>
         <Button onClick={() => { setF({ name: '', description: '', status: 'idea', progress: 0, color: '#0f766e', deadline: '', tags: '' }); setOpen(true); }}><Plus size={16} /> New project</Button>
       </div>
 

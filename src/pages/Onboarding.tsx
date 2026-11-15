@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { DEFAULT_TEMPLATES } from '../lib/templates';
 import { uid } from '../lib/id';
@@ -54,7 +54,7 @@ export default function Onboarding() {
                 <button key={t.id} onClick={() => setTemplateId(t.id)}
                   className={`text-left p-4 rounded-xl border transition-all ${templateId === t.id ? 'border-accent bg-accent-soft' : 'border-border hover:border-accent/50'}`}>
                   <div className="font-medium">{t.name}</div>
-                  <div className="text-sm text-text-muted">{t.description} · {t.habits.length} habits</div>
+                  <div className="text-sm text-text-muted">{t.description} Ã‚Â· {t.habits.length} habits</div>
                 </button>
               ))}
               <button onClick={() => setTemplateId('none')} className={`text-left p-4 rounded-xl border transition-all ${templateId === 'none' ? 'border-accent bg-accent-soft' : 'border-border hover:border-accent/50'}`}>

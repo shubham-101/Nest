@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -45,7 +46,7 @@ export default function Meditation() {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <h1 className="font-display text-3xl">Meditation</h1>
+      <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Meditation</h1><HelpButton pageKey="meditation" /></span>
 
       <Card>
         <CardContent className="py-8 text-center space-y-4">
@@ -67,7 +68,7 @@ export default function Meditation() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Sessions · {sessions.length} · {totalMin} min total</CardTitle>
+          <CardTitle className="text-base">Sessions Ã‚Â· {sessions.length} Ã‚Â· {totalMin} min total</CardTitle>
           <Button size="sm" variant="ghost" onClick={() => { setF({ duration: 10, type: 'mindfulness', note: '', date: todayStr() }); setOpen(true); }}><Plus size={14} /></Button>
         </CardHeader>
         <CardContent>

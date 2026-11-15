@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -28,7 +29,7 @@ export default function Planner() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Planner</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Planner</h1><HelpButton pageKey="planner" /></span>
         <div className="flex gap-2">
           <Input type="date" value={date} onChange={e => setDate(e.target.value)} className="h-9" />
           <Button onClick={() => { setF({ title: '', start: '09:00', end: '10:00', color: COLORS[0], note: '' }); setOpen(true); }}><Plus size={16} /> Block</Button>
@@ -53,7 +54,7 @@ export default function Planner() {
                     return (
                       <div key={b.id} className="absolute left-1 right-1 rounded-lg px-2 py-1 text-xs text-white overflow-hidden" style={{ top, height: Math.max(20, height), background: b.color }}>
                         <div className="font-medium truncate">{b.title}</div>
-                        <div className="opacity-80">{b.start}–{b.end}</div>
+                        <div className="opacity-80">{b.start}Ã¢â‚¬â€œ{b.end}</div>
                       </div>
                     );
                   })}
@@ -70,7 +71,7 @@ export default function Planner() {
             <div className="h-3 w-3 rounded-full" style={{ background: b.color }} />
             <div className="flex-1">
               <div className="text-sm font-medium">{b.title}</div>
-              <div className="text-xs text-text-muted">{b.start} – {b.end}{b.note ? ' · ' + b.note : ''}</div>
+              <div className="text-xs text-text-muted">{b.start} Ã¢â‚¬â€œ {b.end}{b.note ? ' Ã‚Â· ' + b.note : ''}</div>
             </div>
             <button onClick={() => del(b.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
           </Card>

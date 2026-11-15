@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -26,7 +27,7 @@ export default function Skills() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Skills</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Skills</h1><HelpButton pageKey="skills" /></span>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => { setPf({ skillId: skills[0]?.id || '', duration: 30, note: '', date: todayStr() }); setPracticeOpen(true); }}>Log practice</Button>
           <Button onClick={() => { setF({ name: '', category: 'Design', level: 0, target: 100, notes: '' }); setOpen(true); }}><Plus size={16} /> Add skill</Button>
@@ -52,7 +53,7 @@ export default function Skills() {
                 <div className="h-2 rounded-full bg-surface-2 overflow-hidden"><div className="h-full bg-accent" style={{ width: `${sk.level}%` }} /></div>
                 <input type="range" min={0} max={100} value={sk.level} onChange={e => updateSkill(sk.id, { level: Number(e.target.value) })} className="w-full mt-2" />
               </div>
-              <div className="text-xs text-text-muted">{skPractices.length} practice sessions · {totalMin} min</div>
+              <div className="text-xs text-text-muted">{skPractices.length} practice sessions Ã‚Â· {totalMin} min</div>
               {sk.notes && <div className="text-xs text-text-muted line-clamp-2">{sk.notes}</div>}
             </Card>
           );
@@ -67,7 +68,7 @@ export default function Skills() {
             const sk = skills.find(s => s.id === p.skillId);
             return (
               <div key={p.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0 text-sm">
-                <span className="font-medium">{sk?.name || '—'}</span>
+                <span className="font-medium">{sk?.name || 'Ã¢â‚¬â€'}</span>
                 <span className="text-text-muted">{p.duration} min</span>
                 <span className="flex-1 text-text-muted truncate">{p.note}</span>
                 <span className="text-xs text-text-muted">{p.date}</span>

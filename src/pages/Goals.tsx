@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { Card } from '../components/ui/Card';
@@ -21,7 +22,7 @@ export default function Goals() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Goals</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Goals</h1><HelpButton pageKey="goals" /></span>
         <Button onClick={() => { setF({ title: '', description: '', habitId: '', target: 10, current: 0, unit: 'times', deadline: '' }); setOpen(true); }}><Plus size={16} /> New goal</Button>
       </div>
       <div className="grid sm:grid-cols-2 gap-4">

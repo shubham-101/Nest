@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { Card } from '../components/ui/Card';
@@ -24,7 +25,7 @@ export default function Reading() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Reading list</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Reading list</h1><HelpButton pageKey="reading" /></span>
         <Button onClick={() => { setF({ title: '', author: '', status: 'want', currentPage: 0, totalPages: 0, rating: 0, notes: '', tags: '' }); setOpen(true); }}><Plus size={16} /> Add book</Button>
       </div>
       <div className="flex gap-2">
@@ -55,7 +56,7 @@ export default function Reading() {
                 </div>
               )}
               {b.status === 'done' && b.rating > 0 && (
-                <div className="text-xs text-amber-500">{'★'.repeat(b.rating)}{'☆'.repeat(5 - b.rating)}</div>
+                <div className="text-xs text-amber-500">{'Ã¢Ëœâ€¦'.repeat(b.rating)}{'Ã¢Ëœâ€ '.repeat(5 - b.rating)}</div>
               )}
               {b.notes && <div className="text-xs text-text-muted line-clamp-2">{b.notes}</div>}
               <Select value={b.status} onValueChange={v => updateBook(b.id, { status: v as any, ...(v === 'reading' && !b.startedAt ? { startedAt: new Date().toISOString() } : {}), ...(v === 'done' ? { finishedAt: new Date().toISOString() } : {}) })} options={[

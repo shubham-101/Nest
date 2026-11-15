@@ -1,4 +1,5 @@
-import { useStore } from '../store/useStore';
+﻿import { useStore } from '../store/useStore';
+import { HelpButton } from '../components/HelpButton';
 import { fmtDate } from '../lib/dates';
 import { streakForHabit, todayProgress } from '../lib/stats';
 import { generateInsights, weeklySummary } from '../lib/ai';
@@ -24,7 +25,7 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl md:text-4xl">Good {greeting()}, {settings.name || 'designer'}.</h1>
+          <span className="flex items-center gap-2"><h1 className="font-display text-3xl md:text-4xl">Good {greeting()}, {settings.name || 'designer'}.</h1><HelpButton pageKey="dashboard" /></span>
           <p className="text-text-muted mt-1">{fmtDate(new Date(), 'EEEE, MMMM d')}</p>
         </div>
         <div className="flex items-center gap-3">
@@ -66,7 +67,7 @@ export default function Dashboard() {
             <div className="h-11 w-11 rounded-xl bg-accent-soft text-accent flex items-center justify-center"><Target size={22} /></div>
             <div>
               <div className="text-2xl font-bold">{stats.level}</div>
-              <div className="text-xs text-text-muted">Level · {stats.xp} XP</div>
+              <div className="text-xs text-text-muted">Level Ã‚Â· {stats.xp} XP</div>
             </div>
           </CardContent>
         </Card>
@@ -100,7 +101,7 @@ export default function Dashboard() {
             <CardHeader><CardTitle className="text-base flex items-center gap-2"><Sparkles size={16} className="text-accent" /> Coach insights</CardTitle></CardHeader>
             <CardContent className="space-y-2">
               {insights.map((t, i) => (
-                <div key={i} className="text-sm text-text-muted leading-relaxed">• {t}</div>
+                <div key={i} className="text-sm text-text-muted leading-relaxed">Ã¢â‚¬Â¢ {t}</div>
               ))}
               <div className="pt-2 border-t border-border text-sm">{ws}</div>
             </CardContent>

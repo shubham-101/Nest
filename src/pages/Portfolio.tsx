@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { Card } from '../components/ui/Card';
@@ -43,7 +44,7 @@ export default function Portfolio() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Portfolio / shipped work</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Portfolio / shipped work</h1><HelpButton pageKey="portfolio" /></span>
         <Button onClick={() => { setForm({}); setOpen(true); }}><Plus size={16} /> Add item</Button>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

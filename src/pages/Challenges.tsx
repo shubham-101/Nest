@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -29,7 +30,7 @@ export default function Challenges() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Challenges</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Challenges</h1><HelpButton pageKey="challenges" /></span>
         <Button onClick={() => { setF({ name: '', description: '', habitId: '', duration: 30, startDate: todayStr() }); setOpen(true); }}><Plus size={16} /> New challenge</Button>
       </div>
       <div className="space-y-4">
@@ -50,7 +51,7 @@ export default function Challenges() {
               <div className="flex items-start gap-2">
                 <div className="flex-1">
                   <div className="font-medium flex items-center gap-2"><Flame size={16} className="text-orange-500" /> {c.name}</div>
-                  <div className="text-xs text-text-muted">{c.description}{habit ? ` · ${habit.name}` : ''}</div>
+                  <div className="text-xs text-text-muted">{c.description}{habit ? ` Ã‚Â· ${habit.name}` : ''}</div>
                 </div>
                 <button onClick={() => deleteChallenge(c.id)} className="text-text-muted hover:text-danger"><Trash2 size={14} /></button>
               </div>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -25,7 +26,7 @@ export default function Quit() {
   const [open, setOpen] = useState(false);
   const [urgeOpen, setUrgeOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
-  const [f, setF] = useState<any>({ name: '', icon: '🚭', color: '#dc2626', reason: '', triggers: [] as string[], replacementHabitId: '', costPerOccurrence: 0, currency: '₹', targetDays: 30, startDate: todayStr() });
+  const [f, setF] = useState<any>({ name: '', icon: 'Ã°Å¸Å¡Â­', color: '#dc2626', reason: '', triggers: [] as string[], replacementHabitId: '', costPerOccurrence: 0, currency: 'Ã¢â€šÂ¹', targetDays: 30, startDate: todayStr() });
   const [uf, setUf] = useState<any>({ badHabitId: '', intensity: 3, trigger: '', note: '', resisted: true, date: todayStr() });
 
   const daysClean = (bh: any) => {
@@ -63,8 +64,8 @@ export default function Quit() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Quit bad habits</h1>
-        <Button onClick={() => { setF({ name: '', icon: '🚭', color: '#dc2626', reason: '', triggers: [], replacementHabitId: '', costPerOccurrence: 0, currency: '₹', targetDays: 30, startDate: todayStr() }); setOpen(true); }}><Plus size={16} /> New</Button>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Quit bad habits</h1><HelpButton pageKey="quit" /></span>
+        <Button onClick={() => { setF({ name: '', icon: 'Ã°Å¸Å¡Â­', color: '#dc2626', reason: '', triggers: [], replacementHabitId: '', costPerOccurrence: 0, currency: 'Ã¢â€šÂ¹', targetDays: 30, startDate: todayStr() }); setOpen(true); }}><Plus size={16} /> New</Button>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -180,8 +181,8 @@ export default function Quit() {
           <div><Label>Trigger</Label><Select value={uf.trigger} onValueChange={v => setUf({ ...uf, trigger: v })} options={[{ value: '', label: 'None' }, ...TRIGGERS.map(t => ({ value: t, label: t }))]} /></div>
           <div><Label>Note</Label><Textarea value={uf.note} onChange={e => setUf({ ...uf, note: e.target.value })} rows={2} /></div>
           <div className="flex gap-2">
-            <Button variant={uf.resisted ? 'primary' : 'outline'} onClick={() => setUf({ ...uf, resisted: true })}>Resisted ✓</Button>
-            <Button variant={!uf.resisted ? 'danger' : 'outline'} onClick={() => setUf({ ...uf, resisted: false })}>Relapsed ✗</Button>
+            <Button variant={uf.resisted ? 'primary' : 'outline'} onClick={() => setUf({ ...uf, resisted: true })}>Resisted Ã¢Å“â€œ</Button>
+            <Button variant={!uf.resisted ? 'danger' : 'outline'} onClick={() => setUf({ ...uf, resisted: false })}>Relapsed Ã¢Å“â€”</Button>
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={() => setUrgeOpen(false)}>Cancel</Button>

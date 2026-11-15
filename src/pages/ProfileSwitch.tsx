@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import {
   getProfiles, setActiveProfileId, getActiveProfileId, createProfile, deleteProfile,
 } from '../lib/profiles';
@@ -36,7 +37,7 @@ export default function ProfileSwitch({ onEnter }: { onEnter: () => void }) {
       if (!pkg || typeof pkg !== 'object') throw new Error('bad');
       applySyncPackage(pkg);
       setImportText('');
-      alert('Sync imported. Reloading app…');
+      alert('Sync imported. Reloading appÃ¢â‚¬Â¦');
       window.location.reload();
     } catch {
       alert('Invalid sync file.');
@@ -52,7 +53,7 @@ export default function ProfileSwitch({ onEnter }: { onEnter: () => void }) {
         const pkg = JSON.parse(r.result as string);
         if (!pkg || typeof pkg !== 'object' || !pkg.data) throw new Error('bad');
         applySyncPackage(pkg);
-        alert('Sync file imported. Reloading app…');
+        alert('Sync file imported. Reloading appÃ¢â‚¬Â¦');
         window.location.reload();
       } catch {
         alert('That file is not a valid Nest sync file.');
@@ -66,7 +67,10 @@ export default function ProfileSwitch({ onEnter }: { onEnter: () => void }) {
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <div className="mx-auto mb-4 w-16 h-16"><Logo size={64} /></div>
-          <h1 className="font-display text-3xl">Nest</h1>
+          <div className="flex items-center justify-center gap-2">
+            <h1 className="font-display text-3xl">Nest</h1>
+            <HelpButton pageKey="profileswitch" />
+          </div>
           <p className="text-text-muted text-sm mt-1">Choose a profile to continue</p>
         </div>
 
@@ -80,7 +84,7 @@ export default function ProfileSwitch({ onEnter }: { onEnter: () => void }) {
                   </div>
                   <div className="flex-1">
                     <div className="font-medium">{p.name}</div>
-                    <div className="text-xs text-text-muted">Profile {p.id === activeId && '· active'}</div>
+                    <div className="text-xs text-text-muted">Profile {p.id === activeId && 'Ã‚Â· active'}</div>
                   </div>
                 </button>
                 {p.id !== 'default' && (
@@ -112,7 +116,7 @@ export default function ProfileSwitch({ onEnter }: { onEnter: () => void }) {
 
         <Card className="p-4 space-y-3">
           <div className="font-medium text-sm">Sync between devices</div>
-          <p className="text-xs text-text-muted">Export all profiles to a file, then import it on another device. Your data is stored locally — this is your sync.</p>
+          <p className="text-xs text-text-muted">Export all profiles to a file, then import it on another device. Your data is stored locally Ã¢â‚¬â€ this is your sync.</p>
           <Button variant="outline" className="w-full" onClick={() => downloadJSON(buildSyncPackage(), 'studio-sync.json')}>
             <Download size={14} /> Export sync file (all profiles)
           </Button>
@@ -124,7 +128,7 @@ export default function ProfileSwitch({ onEnter }: { onEnter: () => void }) {
               <span className="text-xs text-text-muted">or</span>
               <div className="h-px flex-1 bg-border" />
             </div>
-            <Input value={importText} onChange={e => setImportText(e.target.value)} placeholder="Paste JSON…" />
+            <Input value={importText} onChange={e => setImportText(e.target.value)} placeholder="Paste JSONÃ¢â‚¬Â¦" />
             <Button variant="ghost" className="w-full mt-2" onClick={handleSyncImport} disabled={!importText.trim()}>
               <Upload size={14} /> Import pasted JSON
             </Button>

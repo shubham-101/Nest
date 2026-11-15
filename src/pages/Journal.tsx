@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -28,7 +29,7 @@ export default function Journal() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Journal</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Journal</h1><HelpButton pageKey="journal" /></span>
         <Button onClick={() => {
           if (tab === 'gratitude') { setGItems(['', '', '']); setGNote(''); setGOpen(true); }
           else { setEditingNote(null); setNf({ title: '', content: '', tags: '', pinned: false }); setNOpen(true); }

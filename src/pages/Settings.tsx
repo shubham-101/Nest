@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { buildExport, downloadJSON, buildSyncPackage, applySyncPackage } from '../lib/export';
 import { getProfiles, getActiveProfileId, ACTIVE_PROFILE_KEY } from '../lib/profiles';
@@ -37,7 +38,7 @@ export default function Settings() {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <h1 className="font-display text-3xl">Settings</h1>
+      <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Settings</h1><HelpButton pageKey="settings" /></span>
 
       <Card>
         <CardHeader><CardTitle>Profile</CardTitle></CardHeader>
@@ -114,7 +115,7 @@ export default function Settings() {
                     const pkg = JSON.parse(r.result as string);
                     if (!pkg || typeof pkg !== 'object' || !pkg.data) throw new Error('bad');
                     applySyncPackage(pkg);
-                    alert('Sync file imported. Reloading app…');
+                    alert('Sync file imported. Reloading appÃ¢â‚¬Â¦');
                     window.location.reload();
                   } catch { alert('That file is not a valid Nest sync file.'); }
                 };
@@ -129,8 +130,8 @@ export default function Settings() {
       <Card>
         <CardHeader><CardTitle>Nest Coach (local)</CardTitle></CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-sm text-text-muted">My coach runs fully in this app — it reads your habits, streaks, moods, sleep, goals and quotes your actual numbers. No AI key, server, or internet needed.</p>
-          <div className="text-xs text-text-muted bg-surface-2 rounded-xl p-3">Ask: <em>streaks · my weekly summary · why do I slip · mood & sleep · my goals · my plan · give me advice</em></div>
+          <p className="text-sm text-text-muted">My coach runs fully in this app Ã¢â‚¬â€ it reads your habits, streaks, moods, sleep, goals and quotes your actual numbers. No AI key, server, or internet needed.</p>
+          <div className="text-xs text-text-muted bg-surface-2 rounded-xl p-3">Ask: <em>streaks Ã‚Â· my weekly summary Ã‚Â· why do I slip Ã‚Â· mood & sleep Ã‚Â· my goals Ã‚Â· my plan Ã‚Â· give me advice</em></div>
         </CardContent>
       </Card>
 
@@ -159,7 +160,7 @@ export default function Settings() {
       <Card>
         <CardHeader><CardTitle>Stats</CardTitle></CardHeader>
         <CardContent className="text-sm text-text-muted space-y-1">
-          <div>Level: {stats.level} · XP: {stats.xp}</div>
+          <div>Level: {stats.level} Ã‚Â· XP: {stats.xp}</div>
           <div>Badges: {stats.badges.length}</div>
           <div>Total completions: {stats.totalCompletions}</div>
         </CardContent>

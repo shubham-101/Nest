@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { uid } from '../lib/id';
 import { todayStr } from '../lib/dates';
@@ -31,7 +32,7 @@ export default function Finance() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Finance</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Finance</h1><HelpButton pageKey="finance" /></span>
         <Button onClick={() => { setF({ type: 'expense', amount: 0, category: 'Food', note: '', date: todayStr() }); setOpen(true); }}><Plus size={16} /> Add entry</Button>
       </div>
 
@@ -67,7 +68,7 @@ export default function Finance() {
               {e.type === 'income' ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
             </div>
             <div className="flex-1">
-              <div className="text-sm font-medium">{e.category} {e.note && <span className="text-text-muted">· {e.note}</span>}</div>
+              <div className="text-sm font-medium">{e.category} {e.note && <span className="text-text-muted">Ã‚Â· {e.note}</span>}</div>
               <div className="text-xs text-text-muted">{e.date}</div>
             </div>
             <div className={`font-semibold ${e.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>{e.type === 'income' ? '+' : '-'}{e.amount.toLocaleString()}</div>

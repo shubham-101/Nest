@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
+import { HelpButton } from '../components/HelpButton';
 import { useStore } from '../store/useStore';
 import { isCompleted } from '../lib/stats';
 import { heatmapData } from '../lib/stats';
@@ -38,7 +39,7 @@ export default function CalendarPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl">Calendar</h1>
+        <span className="flex items-center gap-2"><h1 className="font-display text-3xl">Calendar</h1><HelpButton pageKey="calendar" /></span>
         <Button onClick={() => setReminderOpen(true)}><BellPlus size={16} /> New reminder</Button>
       </div>
 
@@ -93,7 +94,7 @@ export default function CalendarPage() {
       {selected && (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2"><Bell size={16} className="text-amber-500" /> Reminders · {fmtDate(selected)}</CardTitle>
+            <CardTitle className="text-base flex items-center gap-2"><Bell size={16} className="text-amber-500" /> Reminders Ã‚Â· {fmtDate(selected)}</CardTitle>
             <Button size="sm" variant="ghost" onClick={() => setReminderOpen(true)}><BellPlus size={14} /> Add</Button>
           </CardHeader>
           <CardContent>
@@ -103,7 +104,7 @@ export default function CalendarPage() {
                 <span className="text-amber-500"><Bell size={15} /></span>
                 <div className="flex-1">
                   <div className="text-sm font-medium">{r.title}</div>
-                  <div className="text-xs text-text-muted">{r.time}{r.repeat !== 'none' ? ` · repeats ${r.repeat}` : ''}{r.note ? ` · ${r.note}` : ''}</div>
+                  <div className="text-xs text-text-muted">{r.time}{r.repeat !== 'none' ? ` Ã‚Â· repeats ${r.repeat}` : ''}{r.note ? ` Ã‚Â· ${r.note}` : ''}</div>
                 </div>
                 <Button size="sm" variant="ghost" onClick={() => updateReminder(r.id, { done: !r.done })}>
                   {r.done ? 'Reopen' : 'Done'}
@@ -249,7 +250,7 @@ function DateEditor({ date, onDone }: { date: string; onDone: () => void }) {
               <span className="text-xl">{h.icon}</span>
               <div className="flex-1">
                 <div className="text-sm font-medium">{h.name}</div>
-                {h.type !== 'boolean' && <div className="text-xs text-text-muted">{h.type}{h.unit ? ` · ${h.unit}` : ''}{h.target ? ` · target ${h.target}` : ''}</div>}
+                {h.type !== 'boolean' && <div className="text-xs text-text-muted">{h.type}{h.unit ? ` Ã‚Â· ${h.unit}` : ''}{h.target ? ` Ã‚Â· target ${h.target}` : ''}</div>}
               </div>
               {done && <Check size={16} className="text-accent" />}
               <button onClick={() => clearHabit(h)} className="text-text-muted hover:text-danger" title="Clear this entry"><Trash2 size={14} /></button>
@@ -257,7 +258,7 @@ function DateEditor({ date, onDone }: { date: string; onDone: () => void }) {
 
             {h.type === 'boolean' && (
               <button onClick={() => toggleBoolean(h)} className={`w-full h-9 rounded-lg text-sm font-medium transition-colors ${done ? 'bg-accent text-white' : 'bg-surface-2 hover:bg-border'}`}>
-                {done ? '✓ Done (click to undo)' : 'Mark done'}
+                {done ? 'Ã¢Å“â€œ Done (click to undo)' : 'Mark done'}
               </button>
             )}
 
@@ -303,12 +304,12 @@ function DateEditor({ date, onDone }: { date: string; onDone: () => void }) {
       <div className="border border-border rounded-xl p-3 space-y-2">
         <Label>Mood & energy</Label>
         <div className="flex gap-1 mb-2">
-          {['😞', '😕', '😐', '🙂', '😄'].map((emo, i) => (
+          {['Ã°Å¸ËœÅ¾', 'Ã°Å¸Ëœâ€¢', 'Ã°Å¸ËœÂ', 'Ã°Å¸â„¢â€š', 'Ã°Å¸Ëœâ€ž'].map((emo, i) => (
             <button key={i} onClick={() => setMood(i + 1)} className={`flex-1 h-9 rounded-lg text-lg ${mood === i + 1 ? 'bg-accent-soft scale-110' : 'hover:bg-surface-2'}`}>{emo}</button>
           ))}
         </div>
         <div className="flex gap-1">
-          {['🪫', '🔋', '⚡', '🚀', '🔥'].map((emo, i) => (
+          {['Ã°Å¸ÂªÂ«', 'Ã°Å¸â€â€¹', 'Ã¢Å¡Â¡', 'Ã°Å¸Å¡â‚¬', 'Ã°Å¸â€Â¥'].map((emo, i) => (
             <button key={i} onClick={() => setEnergy(i + 1)} className={`flex-1 h-9 rounded-lg text-lg ${energy === i + 1 ? 'bg-accent-soft scale-110' : 'hover:bg-surface-2'}`}>{emo}</button>
           ))}
         </div>
