@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
 import { todayStr } from '../../lib/dates';
@@ -16,6 +16,11 @@ export const Topbar = ({ onMenu }: { onMenu: () => void }) => {
   const upsertEntry = useStore(s => s.upsertEntry);
   const updateSettings = useStore(s => s.updateSettings);
   const [bellOpen, setBellOpen] = useState(false);
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
   const navigate = useNavigate();
   const m = moods.find(x => x.date === todayStr());
   const MOODS = ['😞', '😕', '😐', '🙂', '😄'];
@@ -42,7 +47,16 @@ export const Topbar = ({ onMenu }: { onMenu: () => void }) => {
             <span>{ENERGY[m.energy - 1]}</span>
           </div>
         )}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          {/* current time */}
+          <div className="hidden sm:flex flex-col items-end leading-tight select-none pr-1">
+            <span className="font-mono text-sm font-semibold tabular-nums">
+              {now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', second: '2-digit' })}
+            </span>
+            <span className="text-[10px] text-text-muted uppercase tracking-wide">
+              {now.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' })}
+            </span>
+          </div>
           {/* notification bell */}
           <div className="relative">
             <Button variant="ghost" size="icon" onClick={() => setBellOpen(v => !v)} aria-label="Reminders">
